@@ -19,14 +19,9 @@ public static class VoxcelSurfaceDirectionExtension
             VoxcelSurfaceDirection.Front,
             new List<VertexOffset>
             {
-                // 1つ目の三角形の頂点オフセット
                 VertexOffset.FrontBottomLeft,
                 VertexOffset.FrontTopLeft,
                 VertexOffset.FrontBottomRight,
-
-                // 2つ目の三角形の頂点オフセット
-                VertexOffset.FrontBottomRight,
-                VertexOffset.FrontTopLeft,
                 VertexOffset.FrontTopRight
             }
         },
@@ -34,14 +29,9 @@ public static class VoxcelSurfaceDirectionExtension
             VoxcelSurfaceDirection.Back,
             new List<VertexOffset>
             {
-                // 1つ目の三角形の頂点オフセット
                 VertexOffset.BackBottomRight,
                 VertexOffset.BackTopRight,
                 VertexOffset.BackBottomLeft,
-
-                // 2つ目の三角形の頂点オフセット
-                VertexOffset.BackBottomLeft,
-                VertexOffset.BackTopRight,
                 VertexOffset.BackTopLeft
             }
         },
@@ -49,14 +39,9 @@ public static class VoxcelSurfaceDirectionExtension
             VoxcelSurfaceDirection.Top,
             new List<VertexOffset>
             {
-                // 1つ目の三角形の頂点オフセット
                 VertexOffset.FrontTopLeft,
                 VertexOffset.BackTopLeft,
                 VertexOffset.FrontTopRight,
-
-                // 2つ目の三角形の頂点オフセット
-                VertexOffset.FrontTopRight,
-                VertexOffset.BackTopLeft,
                 VertexOffset.BackTopRight
             }
         },
@@ -64,14 +49,9 @@ public static class VoxcelSurfaceDirectionExtension
             VoxcelSurfaceDirection.Bottom,
             new List<VertexOffset>
             {
-                // 1つ目の三角形の頂点オフセット
                 VertexOffset.BackBottomLeft,
                 VertexOffset.FrontBottomLeft,
                 VertexOffset.BackBottomRight,
-
-                // 2つ目の三角形の頂点オフセット
-                VertexOffset.BackBottomRight,
-                VertexOffset.FrontBottomLeft,
                 VertexOffset.FrontBottomRight
             }
         },
@@ -79,14 +59,9 @@ public static class VoxcelSurfaceDirectionExtension
             VoxcelSurfaceDirection.Left,
             new List<VertexOffset>
             {
-                // 1つ目の三角形の頂点オフセット
                 VertexOffset.BackBottomLeft,
                 VertexOffset.BackTopLeft,
                 VertexOffset.FrontBottomLeft,
-
-                 // 2つ目の三角形の頂点オフセット
-                VertexOffset.FrontBottomLeft,
-                VertexOffset.BackTopLeft,
                 VertexOffset.FrontTopLeft
             }
         },
@@ -94,14 +69,9 @@ public static class VoxcelSurfaceDirectionExtension
             VoxcelSurfaceDirection.Right,
             new List<VertexOffset>
             {
-                // 1つ目の三角形の頂点オフセット
                 VertexOffset.FrontBottomRight,
                 VertexOffset.FrontTopRight,
                 VertexOffset.BackBottomRight,
-
-                // 2つ目の三角形の頂点オフセット
-                VertexOffset.BackBottomRight,
-                VertexOffset.FrontTopRight,
                 VertexOffset.BackTopRight
             }
         },

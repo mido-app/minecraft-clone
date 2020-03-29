@@ -44,8 +44,12 @@ public class Chunk : MonoBehaviour
         mesh.triangles = Enumerable.Range(
                 0,
                 this._voxcelDict
-                    .Select(voxcel => voxcel.Value.GetVisibleVerticesCount())
+                    .Select(voxcel => voxcel.Value.GetVisibleSurfacesCount())
                     .Sum()
+            )
+            .SelectMany(surfaceIndex => VoxcelSurface
+                .TriangleOrder
+                .Select(vertexIndex => surfaceIndex * 4 + vertexIndex)
             )
             .ToArray();
         mesh.uv = Enumerable.Range(

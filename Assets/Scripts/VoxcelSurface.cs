@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 /*
  * ボクセルの面を表すクラス
- * ボクセルの面は2つの3角形から成る
+ * ボクセルの面は4つの点からできる2つの三角形から成る
  */
 public class VoxcelSurface {
+
     /**
-     * 面の描画に必要な頂点位置リストを返します。
-     * 返却順は以下の通り。
-     * ・1番目の三角形の頂点→2番目の三角形の頂点の順に返す
-     * ・各三角形の頂点は時計回りになるように返す（メッシュの描画は頂点の順によって描画方向が変わるため）
+     * 4つの点から三角形を作るために線を結ぶ順番を定義
+     * それぞれの値はVerticesのインデックスを表す
      */
+    public static readonly ICollection<int> TriangleOrder = new List<int> { 0, 1, 2, 2, 1, 3 };
+
     public ICollection<VoxcelVertex> Vertices { get; }
 
     public bool IsVisible { get; set; }
