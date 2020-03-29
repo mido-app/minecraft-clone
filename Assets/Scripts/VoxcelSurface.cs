@@ -35,68 +35,82 @@ public class VoxcelSurface {
 
     public static VoxcelSurface Bottom = new VoxcelSurface(
         new Triangle(
+            Vertex.BackBottomLeft,
             Vertex.FrontBottomLeft,
-            Vertex.FrontBottomRight,
-            Vertex.BackBottomLeft
+            Vertex.BackBottomRight
         ),
         new Triangle(
-            Vertex.FrontBottomRight,
             Vertex.BackBottomRight,
-            Vertex.BackBottomLeft
+            Vertex.FrontBottomLeft,
+            Vertex.FrontBottomRight
         )
     );
 
     public static VoxcelSurface Front = new VoxcelSurface(
         new Triangle(
+            Vertex.FrontBottomLeft,
             Vertex.FrontTopLeft,
-            Vertex.FrontTopRight,
-            Vertex.FrontBottomLeft
+            Vertex.FrontBottomRight
         ),
         new Triangle(
-            Vertex.FrontBottomLeft,
-            Vertex.FrontTopRight,
-            Vertex.FrontBottomRight
+            Vertex.FrontBottomRight,
+            Vertex.FrontTopLeft,
+            Vertex.FrontTopRight
         )
     );
 
     public static VoxcelSurface Back = new VoxcelSurface(
         new Triangle(
-            Vertex.BackTopLeft,
-            Vertex.BackBottomLeft,
-            Vertex.BackTopRight
+            Vertex.BackBottomRight,
+            Vertex.BackTopRight,
+            Vertex.BackBottomLeft
         ),
         new Triangle(
             Vertex.BackBottomLeft,
-            Vertex.BackBottomRight,
-            Vertex.BackTopRight
+            Vertex.BackTopRight,
+            Vertex.BackTopLeft
         )
     );
 
     public static VoxcelSurface Left = new VoxcelSurface(
         new Triangle(
+            Vertex.BackBottomLeft,
             Vertex.BackTopLeft,
-            Vertex.FrontTopLeft,
-            Vertex.BackBottomLeft
+            Vertex.FrontBottomLeft
         ),
         new Triangle(
-            Vertex.BackBottomLeft,
-            Vertex.FrontTopLeft,
-            Vertex.FrontBottomLeft
+            Vertex.FrontBottomLeft,
+            Vertex.BackTopLeft,
+            Vertex.FrontTopLeft
         )
     );
 
     public static VoxcelSurface Right = new VoxcelSurface(
         new Triangle(
+            Vertex.FrontBottomRight,
             Vertex.FrontTopRight,
-            Vertex.BackTopRight,
-            Vertex.FrontBottomRight
+            Vertex.BackBottomRight
         ),
         new Triangle(
-            Vertex.FrontBottomRight,
-            Vertex.BackTopRight,
-            Vertex.BackBottomRight
+            Vertex.BackBottomRight,
+            Vertex.FrontTopRight,
+            Vertex.BackTopRight
         )
     );
+
+    /**
+     * テクスチャをどの向きにはるかを定義する配列
+     * このクラスに登録する2つの三角形は以下のテクスチャの向きに留意して登録する
+     */
+    public static readonly ICollection<Vector2> Uvs = new List<Vector2>
+    {
+        new Vector2(0, 0),
+        new Vector2(0, 1),
+        new Vector2(1, 0),
+        new Vector2(1, 0),
+        new Vector2(0, 1),
+        new Vector2(1, 1)
+    };
 
     private readonly Triangle _triangle1;
     private readonly Triangle _triangle2;

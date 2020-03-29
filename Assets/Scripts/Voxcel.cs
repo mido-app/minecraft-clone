@@ -11,15 +11,21 @@ public class Voxcel : MonoBehaviour
 
         Mesh mesh = new Mesh
         {
-            vertices = Vertex.All()
-            .Select(vertex => vertex.Position)
-            .ToArray(),
-            triangles = VoxcelSurface.All()
-            .SelectMany(surface => surface.Vertices)
-            .Select(vertex => vertex.Id)
-            .ToArray()
+            vertices = VoxcelSurface.All()
+                .SelectMany(surface => surface.Vertices)
+                .Select(vertex => vertex.Position)
+                .ToArray(),
+            triangles = Enumerable.Range(
+                    0,
+                    VoxcelSurface.All().SelectMany(surface => surface.Vertices).Count()
+                )
+                .ToArray(),
+            uv = VoxcelSurface.All()
+                .SelectMany(_ => VoxcelSurface.Uvs)
+                .ToArray()
         };
         mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
 
         this._meshFilter.mesh = mesh;
     }
