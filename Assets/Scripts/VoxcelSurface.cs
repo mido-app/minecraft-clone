@@ -15,6 +15,8 @@ public class VoxcelSurface {
      */
     public ICollection<VoxcelVertex> Vertices { get; }
 
+    public bool IsVisible { get; set; }
+
     public VoxcelSurface(ICollection<VoxcelVertex> vertices)
     {
         this.Vertices = vertices;

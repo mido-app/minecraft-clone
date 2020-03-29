@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum VoxcelSurfaceDirection
 {
@@ -12,7 +13,7 @@ public enum VoxcelSurfaceDirection
 
 public static class VoxcelSurfaceDirectionExtension
 {
-    private static Dictionary<VoxcelSurfaceDirection, ICollection<VertexOffset>> _offsetMap = new Dictionary<VoxcelSurfaceDirection, ICollection<VertexOffset>>
+    private static readonly Dictionary<VoxcelSurfaceDirection, ICollection<VertexOffset>> _offsetDict= new Dictionary<VoxcelSurfaceDirection, ICollection<VertexOffset>>
     {
         {
             VoxcelSurfaceDirection.Front,
@@ -106,8 +107,22 @@ public static class VoxcelSurfaceDirectionExtension
         },
     };
 
+    private static readonly Dictionary<VoxcelSurfaceDirection, Vector3> _normalDict = new Dictionary<VoxcelSurfaceDirection, Vector3> {
+        { VoxcelSurfaceDirection.Front, new Vector3(0, 0, -1) },
+        { VoxcelSurfaceDirection.Back, new Vector3(0, 0, 1) },
+        { VoxcelSurfaceDirection.Top, new Vector3(0, 1, 0) },
+        { VoxcelSurfaceDirection.Bottom, new Vector3(0, -1, 0) },
+        { VoxcelSurfaceDirection.Left, new Vector3(-1, 0, 0) },
+        { VoxcelSurfaceDirection.Right, new Vector3(1, 0, 0) }
+    };
+
     public static ICollection<VertexOffset> GetVertexOffsets(this VoxcelSurfaceDirection surface)
     {
-        return _offsetMap[surface];
+        return _offsetDict[surface];
+    }
+
+    public static Vector3 GetNomalVector3(this VoxcelSurfaceDirection direction)
+    {
+        return _normalDict[direction];
     }
 }

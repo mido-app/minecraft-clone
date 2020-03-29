@@ -22,9 +22,9 @@ public class Voxcel
     public Vector3 Position { get; set; }
     public Dictionary<VoxcelSurfaceDirection, VoxcelSurface> Surfaces = new Dictionary<VoxcelSurfaceDirection, VoxcelSurface>();
 
-    public Voxcel(): this(new Vector3()) {}
-
-    public Voxcel(Vector3 position)
+    public Voxcel(
+        Vector3 position = new Vector3()
+    )
     {
         this.Position = position;
         this.Surfaces = Enum.GetValues(typeof(VoxcelSurfaceDirection))
@@ -45,24 +45,37 @@ public class Voxcel
             );
     }
 
-    public ICollection<Vector3> GetVertices()
+    public ICollection<VoxcelSurface> GetVisibleSurfaces()
     {
         return Enum.GetValues(typeof(VoxcelSurfaceDirection))
             .Cast<VoxcelSurfaceDirection>()
             .ToList()
-            .SelectMany(direction => this.Surfaces[direction].Vertices)
+            .Select(direction => this.Surfaces[direction])
+            .Where(surface => surface.IsVisible)
+            .ToList();
+    }
+
+    public int GetVisibleSurfacesCount()
+    {
+        return this.GetVisibleSurfaces().Count();
+    }
+
+    public ICollection<Vector3> GetVisibleVertices()
+    {
+        return this.GetVisibleSurfaces()
+            .SelectMany(surface => surface.Vertices)
             .Select(vertex => vertex.GetPosition())
             .ToList();
     }
 
-    public int GetSurfacesCount()
-    {
-        return 6;
-    }
-
-    public int GetVerticesCount()
+    public int GetVisibleVerticesCount()
     {
         // 6方向 × 6頂点のため常に36
-        return 36;
+        return this.GetVisibleVertices().Count();
+    }
+
+    public void SetSurfaceVisibility(VoxcelSurfaceDirection direction, bool isVisible)
+    {
+        this.Surfaces[direction].IsVisible = isVisible;
     }
 }

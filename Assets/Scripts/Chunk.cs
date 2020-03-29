@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class Chunk : MonoBehaviour
 
     private MeshFilter _meshFilter;
 
-    private readonly ICollection<Voxcel> _voxcels = new List<Voxcel>();
+    private readonly IDictionary<Vector3, Voxcel> _voxcelDict = new Dictionary<Vector3, Voxcel>();
 
     void Start()
     {
@@ -25,31 +26,32 @@ public class Chunk : MonoBehaviour
                 });
             });
         });
+        this.UpdateVoxcelSurfaceVisibilities();
         this.CreateMesh();
     }
 
     void AddVoxcel(Vector3 position)
     {
-        this._voxcels.Add(new Voxcel(position));
+        this._voxcelDict.Add(position, new Voxcel(position));
     }
 
     void CreateMesh()
     {
         Mesh mesh = new Mesh();
-        mesh.vertices = this._voxcels
-            .SelectMany(voxcel => voxcel.GetVertices())
+        mesh.vertices = this._voxcelDict
+            .SelectMany(voxcel => voxcel.Value.GetVisibleVertices())
             .ToArray();
         mesh.triangles = Enumerable.Range(
                 0,
-                this._voxcels
-                    .Select(voxcel => voxcel.GetVerticesCount())
+                this._voxcelDict
+                    .Select(voxcel => voxcel.Value.GetVisibleVerticesCount())
                     .Sum()
             )
             .ToArray();
         mesh.uv = Enumerable.Range(
                 0,
-                this._voxcels
-                    .Select(voxcel => voxcel.GetSurfacesCount())
+                this._voxcelDict
+                    .Select(voxcel => voxcel.Value.GetVisibleSurfacesCount())
                     .Sum()
             )
             .SelectMany(_ => Voxcel.Uvs)
@@ -57,5 +59,31 @@ public class Chunk : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
         this._meshFilter.mesh = mesh;
+    }
+
+    void UpdateVoxcelSurfaceVisibilities()
+    {
+        this._voxcelDict.ToList().ForEach(voxcelEntry =>
+        {
+            Enum.GetValues(typeof(VoxcelSurfaceDirection))
+                .Cast<VoxcelSurfaceDirection>()
+                .ToList()
+                .ForEach(direction =>
+                {
+                    voxcelEntry.Value.SetSurfaceVisibility(
+                        direction,
+                        !this.ExistVoxcelAt(voxcelEntry.Value.Position + direction.GetNomalVector3())
+                    );
+                });
+        });
+    }
+
+    bool ExistVoxcelAt(Vector3 position)
+    {
+        int x = Mathf.FloorToInt(position.x);
+        int y = Mathf.FloorToInt(position.y);
+        int z = Mathf.FloorToInt(position.z);
+
+        return this._voxcelDict.ContainsKey(new Vector3(x, y, z));
     }
 }
