@@ -6,13 +6,16 @@ using UnityEngine;
 public class Voxcel
 {
     public Vector3 Position { get; set; }
+    public BlockType BlockType { get; set; }
     public Dictionary<VoxcelSurfaceDirection, VoxcelSurface> Surfaces = new Dictionary<VoxcelSurfaceDirection, VoxcelSurface>();
 
     public Voxcel(
+        BlockType blockType,
         Vector3 position = new Vector3()
     )
     {
         this.Position = position;
+        this.BlockType = blockType;
         this.Surfaces = Enum.GetValues(typeof(VoxcelSurfaceDirection))
             .Cast<VoxcelSurfaceDirection>()
             .ToList()
@@ -23,11 +26,14 @@ public class Voxcel
             })
             .ToDictionary(
                 directionOffsets => directionOffsets.Direction,
-                directionOffsets => new VoxcelSurface(
-                    directionOffsets.Offsets
+                directionOffsets => new VoxcelSurface
+                {
+                    Vertices = directionOffsets.Offsets
                         .Select(offset => new VoxcelVertex(position, offset))
-                        .ToList()
-                )
+                        .ToList(),
+                    IsVisible = true,
+                    TextureId = blockType.Textures[directionOffsets.Direction]
+                }
             );
     }
 

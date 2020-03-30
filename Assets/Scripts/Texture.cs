@@ -39,3 +39,12 @@ public class Texture
             .ToList();
     }
 }
+
+public enum TextureId
+{
+    Air = -1,
+    Stone = 1,
+    Dirt = 2,
+    DirtWithGrass = 3,
+    Grass = 162
+}

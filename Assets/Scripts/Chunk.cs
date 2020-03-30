@@ -30,7 +30,7 @@ public class Chunk : MonoBehaviour
             {
                 Enumerable.Range(0, ChunkDepth).ToList().ForEach(z =>
                 {
-                    this.AddVoxcel(new Vector3(x, y, z));
+                    this.AddVoxcel(this._world.GetBlockTypeById(BlockTypeId.Dirt), new Vector3(x, y, z));
                 });
             });
         });
@@ -38,9 +38,9 @@ public class Chunk : MonoBehaviour
         this.CreateMesh();
     }
 
-    void AddVoxcel(Vector3 position)
+    void AddVoxcel(BlockType blockType, Vector3 position)
     {
-        this._voxcelDict.Add(position, new Voxcel(position));
+        this._voxcelDict.Add(position, new Voxcel(blockType, position));
     }
 
     void CreateMesh()
@@ -60,13 +60,9 @@ public class Chunk : MonoBehaviour
                 .Select(vertexIndex => surfaceIndex * 4 + vertexIndex)
             )
             .ToArray();
-        mesh.uv = Enumerable.Range(
-                0,
-                this._voxcelDict
-                    .Select(voxcel => voxcel.Value.GetVisibleSurfacesCount())
-                    .Sum()
-            )
-            .SelectMany(_ => this._world.texure.GetUvs(1))
+        mesh.uv = this._voxcelDict
+            .SelectMany(voxcel => voxcel.Value.GetVisibleSurfaces())
+            .SelectMany(surface => this._world.texure.GetUvs((int)surface.TextureId))
             .ToArray();
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
