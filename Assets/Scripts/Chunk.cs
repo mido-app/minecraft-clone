@@ -5,16 +5,24 @@ using UnityEngine;
 
 public class Chunk : MonoBehaviour
 {
-    public static readonly int ChunkWidth  = 10;
-    public static readonly int ChunkHeight = 10;
-    public static readonly int ChunkDepth  = 10;
+    public static readonly int ChunkWidth  = 16;
+    public static readonly int ChunkHeight = 128;
+    public static readonly int ChunkDepth  = 16;
 
+    /** テクスチャファイルの1辺にいくつのテクスチャがあるか */
+    public static readonly int TextureAtlasSize = 128;
+
+    /** 0-1に正規化された1ブロックのサイズ */
+    public static readonly float NomalizedBlockTexureSize = 1.0f / (float)TextureAtlasSize;
+
+    private World _world;
     private MeshFilter _meshFilter;
 
     private readonly IDictionary<Vector3, Voxcel> _voxcelDict = new Dictionary<Vector3, Voxcel>();
 
     void Start()
     {
+        this._world = GameObject.Find("World").GetComponent<World>();
         this._meshFilter = GetComponent<MeshFilter>();
         Enumerable.Range(0, ChunkWidth).ToList().ForEach(x =>
         {
@@ -58,7 +66,7 @@ public class Chunk : MonoBehaviour
                     .Select(voxcel => voxcel.Value.GetVisibleSurfacesCount())
                     .Sum()
             )
-            .SelectMany(_ => Voxcel.Uvs)
+            .SelectMany(_ => this._world.texure.GetUvs(1))
             .ToArray();
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();

@@ -5,18 +5,6 @@ using UnityEngine;
 
 public class Voxcel
 {
-    /**
-     * テクスチャをどの向きにはるかを定義する配列
-     * このクラスに登録する2つの三角形は以下のテクスチャの向きに留意して登録する
-     */
-    public static readonly ICollection<Vector2> Uvs = new List<Vector2>
-    {
-        new Vector2(0, 0),
-        new Vector2(0, 1),
-        new Vector2(1, 0),
-        new Vector2(1, 1)
-    };
-
     public Vector3 Position { get; set; }
     public Dictionary<VoxcelSurfaceDirection, VoxcelSurface> Surfaces = new Dictionary<VoxcelSurfaceDirection, VoxcelSurface>();
 
